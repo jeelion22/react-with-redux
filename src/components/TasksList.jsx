@@ -1,7 +1,12 @@
-import React, { useDeferredValue, useRef } from "react";
+import React, { useDeferredValue, useEffect, useRef } from "react";
 import UpdateTask from "./UpdateTask";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedTask, removeTaskFromList } from "../slices/taskSlice";
+import {
+  setSelectedTask,
+  removeTaskFromList,
+  getTasksFromServer,
+  deleteTasksInServer,
+} from "../slices/taskSlice";
 
 const TasksList = () => {
   const { selectedTask } = useSelector((state) => state.tasks);
@@ -14,9 +19,18 @@ const TasksList = () => {
     dispatch(setSelectedTask(task));
   };
 
+  useEffect(() => {
+    dispatch(getTasksFromServer());
+  }, [dispatch]);
+
   const deleteTask = (task) => {
     console.log("delete task");
-    dispatch(removeTaskFromList(task));
+    // dispatch(removeTaskFromList(task));
+    dispatch(deleteTasksInServer(task))
+      .unwrap()
+      .then(() => {
+        dispatch(removeTaskFromList(task));
+      });
   };
 
   return (

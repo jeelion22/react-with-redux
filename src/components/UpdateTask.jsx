@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { updateTaskInList } from "../slices/taskSlice";
+import { updateTaskInList, updateTasksInServer } from "../slices/taskSlice";
 import { useDispatch } from "react-redux";
 
 const UpdateTask = ({ selectedTask }) => {
@@ -12,7 +12,7 @@ const UpdateTask = ({ selectedTask }) => {
 
   const updateTask = (e) => {
     e.preventDefault();
-    dispatch(updateTaskInList({ id, title, description }));
+    dispatch(updateTasksInServer({ id, title, description }));
   };
 
   useEffect(() => {
